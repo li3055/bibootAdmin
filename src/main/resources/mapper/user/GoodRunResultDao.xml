@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.suke.czx.modules.user.dao.GoodRunResultDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.suke.czx.modules.user.entity.GoodRunResultEntity" id="goodRunResultMap">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="symbol" jdbcType="VARCHAR" property="symbol" />
+		<result column="time_style" jdbcType="VARCHAR" property="timeStyle" />
+		<result column="strategy_name" jdbcType="VARCHAR" property="strategyName" />
+		<result column="trailing_Buy" jdbcType="DECIMAL" property="trailingBuy" />
+		<result column="buy_Value" jdbcType="DECIMAL" property="buyValue" />
+		<result column="sell_Value" jdbcType="DECIMAL" property="sellValue" />
+		<result column="trailing_Profit" jdbcType="DECIMAL" property="trailingProfit" />
+		<result column="total_profit" jdbcType="DECIMAL" property="totalProfit" />
+		<result column="Reward_risk" jdbcType="DECIMAL" property="rewardRisk" />
+		<result column="Maximum_drawdown" jdbcType="DECIMAL" property="maximumDrawdown" />
+		<result column="Number_Of_Trades" jdbcType="DECIMAL" property="numberOfTrades" />
+		<result column="wave_time" jdbcType="INTEGER" property="waveTime" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="Average_Profitable_Trades" jdbcType="DECIMAL" property="averageProfitableTrades" />
+		<result column="Buy_and_hold" jdbcType="DECIMAL" property="buyAndHold" />
+		<result column="startDate" jdbcType="TIMESTAMP" property="startdate" />
+		<result column="endDate" jdbcType="TIMESTAMP" property="enddate" />
+		<result column="time_width_min" jdbcType="INTEGER" property="timeWidthMin" />
+		<result column="version_str" jdbcType="VARCHAR" property="versionStr" />
+    </resultMap>
+
+	<select id="queryObject" resultType="com.suke.czx.modules.user.entity.GoodRunResultEntity">
+		select * from good_run_result where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.suke.czx.modules.user.entity.GoodRunResultEntity">
+		select * from good_run_result
+		<where>
+			<if test="symbol != null and symbol.trim() != ''">
+				and `symbol` = #{symbol}
+			</if>
+		</where>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from good_run_result 
+	</select>
+	 
+	<insert id="save" parameterType="com.suke.czx.modules.user.entity.GoodRunResultEntity">
+		insert into good_run_result
+		(
+			`id`, 
+			`symbol`, 
+			`time_style`, 
+			`strategy_name`, 
+			`trailing_Buy`, 
+			`buy_Value`, 
+			`sell_Value`, 
+			`trailing_Profit`, 
+			`total_profit`, 
+			`Reward_risk`, 
+			`Maximum_drawdown`, 
+			`Number_Of_Trades`, 
+			`wave_time`, 
+			`create_time`, 
+			`Average_Profitable_Trades`, 
+			`Buy_and_hold`, 
+			`startDate`, 
+			`endDate`, 
+			`time_width_min`, 
+			`version_str`
+		)
+		values
+		(
+			#{id}, 
+			#{symbol}, 
+			#{timeStyle}, 
+			#{strategyName}, 
+			#{trailingBuy}, 
+			#{buyValue}, 
+			#{sellValue}, 
+			#{trailingProfit}, 
+			#{totalProfit}, 
+			#{rewardRisk}, 
+			#{maximumDrawdown}, 
+			#{numberOfTrades}, 
+			#{waveTime}, 
+			#{createTime}, 
+			#{averageProfitableTrades}, 
+			#{buyAndHold}, 
+			#{startdate}, 
+			#{enddate}, 
+			#{timeWidthMin}, 
+			#{versionStr}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.suke.czx.modules.user.entity.GoodRunResultEntity">
+		update good_run_result 
+		<set>
+			<if test="symbol != null">`symbol` = #{symbol}, </if>
+			<if test="timeStyle != null">`time_style` = #{timeStyle}, </if>
+			<if test="strategyName != null">`strategy_name` = #{strategyName}, </if>
+			<if test="trailingBuy != null">`trailing_Buy` = #{trailingBuy}, </if>
+			<if test="buyValue != null">`buy_Value` = #{buyValue}, </if>
+			<if test="sellValue != null">`sell_Value` = #{sellValue}, </if>
+			<if test="trailingProfit != null">`trailing_Profit` = #{trailingProfit}, </if>
+			<if test="totalProfit != null">`total_profit` = #{totalProfit}, </if>
+			<if test="rewardRisk != null">`Reward_risk` = #{rewardRisk}, </if>
+			<if test="maximumDrawdown != null">`Maximum_drawdown` = #{maximumDrawdown}, </if>
+			<if test="numberOfTrades != null">`Number_Of_Trades` = #{numberOfTrades}, </if>
+			<if test="waveTime != null">`wave_time` = #{waveTime}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="averageProfitableTrades != null">`Average_Profitable_Trades` = #{averageProfitableTrades}, </if>
+			<if test="buyAndHold != null">`Buy_and_hold` = #{buyAndHold}, </if>
+			<if test="startdate != null">`startDate` = #{startdate}, </if>
+			<if test="enddate != null">`endDate` = #{enddate}, </if>
+			<if test="timeWidthMin != null">`time_width_min` = #{timeWidthMin}, </if>
+			<if test="versionStr != null">`version_str` = #{versionStr}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from good_run_result where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from good_run_result where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
