@@ -37,6 +37,9 @@
 			<if test="symbol != null and symbol.trim() != ''">
 				and `symbol` = #{symbol}
 			</if>
+			<if test="strategyName != null and strategyName.trim() != ''">
+				and `strategy_name` = #{strategyName}
+			</if>
 		</where>
         <choose>
             <when test="sidx != null and sidx.trim() != ''">

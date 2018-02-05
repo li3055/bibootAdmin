@@ -151,8 +151,8 @@ public class CHttpRequest
 			connection.setUseCaches(false);
 			connection.setInstanceFollowRedirects(true);
 			connection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
-			connection.setConnectTimeout(3000);
-			connection.setReadTimeout(3000);
+			connection.setConnectTimeout(300000);
+			connection.setReadTimeout(300000);
 			connection.connect();
 			
 			DataOutputStream out = new DataOutputStream(connection.getOutputStream());

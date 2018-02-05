@@ -35,10 +35,12 @@ public class GoodRunResultController {
     @RequiresPermissions("user:goodrunresult:list")
     public R list(@RequestParam Map<String, Object> params){
         //查询列表数据
+        params.put("strategyName","SMAspread2018-01-01 01:00:00");
         Query query = new Query(params);
 
         List<GoodRunResultEntity> goodRunResultList = goodRunResultService.queryList(query);
-        int total = goodRunResultService.queryTotal(query);
+        int total = 3000;
+//        int total = goodRunResultService.queryTotal(query);
 
         PageUtils pageUtil = new PageUtils(goodRunResultList, total, query.getLimit(), query.getPage());
 
