@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.suke.czx.modules.user.dao.RunResultDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.suke.czx.modules.user.entity.RunResultEntity" id="runResultMap">
+        <result property="id" column="id"/>
+        <result property="symbol" column="symbol"/>
+        <result property="timeStyle" column="time_style"/>
+        <result property="strategyName" column="strategy_name"/>
+        <result property="trailingBuy" column="trailing_Buy"/>
+        <result property="buyValue" column="buy_Value"/>
+        <result property="sellValue" column="sell_Value"/>
+        <result property="trailingProfit" column="trailing_Profit"/>
+        <result property="startdate" column="startDate"/>
+        <result property="enddate" column="endDate"/>
+        <result property="createTime" column="create_time"/>
+        <result property="dataCount" column="data_count"/>
+        <result property="totalProfit" column="total_profit"/>
+        <result property="rewardRisk" column="Reward_risk"/>
+        <result property="maximumDrawdown" column="Maximum_drawdown"/>
+        <result property="numberOfTicks" column="Number_Of_Ticks"/>
+        <result property="avgProfit" column="avg_profit"/>
+        <result property="numberOfTrades" column="Number_Of_Trades"/>
+        <result property="averageProfitableTrades" column="Average_Profitable_Trades"/>
+        <result property="transactionCost" column="transaction_cost"/>
+        <result property="buyAndHold" column="Buy_and_hold"/>
+        <result property="strategyVsHold" column="strategy_vs_hold"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="com.suke.czx.modules.user.entity.RunResultEntity">
+		select * from run_result where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.suke.czx.modules.user.entity.RunResultEntity">
+		select * from run_result
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from run_result 
+	</select>
+	 
+	<insert id="save" parameterType="com.suke.czx.modules.user.entity.RunResultEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into run_result
+		(
+			`symbol`, 
+			`time_style`, 
+			`strategy_name`, 
+			`trailing_Buy`, 
+			`buy_Value`, 
+			`sell_Value`, 
+			`trailing_Profit`, 
+			`startDate`, 
+			`endDate`, 
+			`create_time`, 
+			`data_count`, 
+			`total_profit`, 
+			`Reward_risk`, 
+			`Maximum_drawdown`, 
+			`Number_Of_Ticks`, 
+			`avg_profit`, 
+			`Number_Of_Trades`, 
+			`Average_Profitable_Trades`, 
+			`transaction_cost`, 
+			`Buy_and_hold`, 
+			`strategy_vs_hold`, 
+			`start_time`, 
+			`end_time`
+		)
+		values
+		(
+			#{symbol}, 
+			#{timeStyle}, 
+			#{strategyName}, 
+			#{trailingBuy}, 
+			#{buyValue}, 
+			#{sellValue}, 
+			#{trailingProfit}, 
+			#{startdate}, 
+			#{enddate}, 
+			#{createTime}, 
+			#{dataCount}, 
+			#{totalProfit}, 
+			#{rewardRisk}, 
+			#{maximumDrawdown}, 
+			#{numberOfTicks}, 
+			#{avgProfit}, 
+			#{numberOfTrades}, 
+			#{averageProfitableTrades}, 
+			#{transactionCost}, 
+			#{buyAndHold}, 
+			#{strategyVsHold}, 
+			#{startTime}, 
+			#{endTime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.suke.czx.modules.user.entity.RunResultEntity">
+		update run_result 
+		<set>
+			<if test="symbol != null">`symbol` = #{symbol}, </if>
+			<if test="timeStyle != null">`time_style` = #{timeStyle}, </if>
+			<if test="strategyName != null">`strategy_name` = #{strategyName}, </if>
+			<if test="trailingBuy != null">`trailing_Buy` = #{trailingBuy}, </if>
+			<if test="buyValue != null">`buy_Value` = #{buyValue}, </if>
+			<if test="sellValue != null">`sell_Value` = #{sellValue}, </if>
+			<if test="trailingProfit != null">`trailing_Profit` = #{trailingProfit}, </if>
+			<if test="startdate != null">`startDate` = #{startdate}, </if>
+			<if test="enddate != null">`endDate` = #{enddate}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="dataCount != null">`data_count` = #{dataCount}, </if>
+			<if test="totalProfit != null">`total_profit` = #{totalProfit}, </if>
+			<if test="rewardRisk != null">`Reward_risk` = #{rewardRisk}, </if>
+			<if test="maximumDrawdown != null">`Maximum_drawdown` = #{maximumDrawdown}, </if>
+			<if test="numberOfTicks != null">`Number_Of_Ticks` = #{numberOfTicks}, </if>
+			<if test="avgProfit != null">`avg_profit` = #{avgProfit}, </if>
+			<if test="numberOfTrades != null">`Number_Of_Trades` = #{numberOfTrades}, </if>
+			<if test="averageProfitableTrades != null">`Average_Profitable_Trades` = #{averageProfitableTrades}, </if>
+			<if test="transactionCost != null">`transaction_cost` = #{transactionCost}, </if>
+			<if test="buyAndHold != null">`Buy_and_hold` = #{buyAndHold}, </if>
+			<if test="strategyVsHold != null">`strategy_vs_hold` = #{strategyVsHold}, </if>
+			<if test="startTime != null">`start_time` = #{startTime}, </if>
+			<if test="endTime != null">`end_time` = #{endTime}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from run_result where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from run_result where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
