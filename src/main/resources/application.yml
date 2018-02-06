@@ -5,7 +5,7 @@ server:
         max-threads: 1000
         min-spare-threads: 30
     port: 8080
-    connection-timeout: 5000
+    connection-timeout: 555000
     context-path: /x_springboot
 
 spring:
@@ -47,6 +47,6 @@ renren:
         # 加密秘钥
         secret: f4e2e52034348f86b67cde581c0f9eb5
         # token有效时长，7天，单位秒
-        expire: 604800
+        expire: 6048000
         header: token
 

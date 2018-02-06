@@ -7,11 +7,11 @@ $(function () {
 			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
 			{ label: '', name: 'symbol', index: 'symbol', width: 70 },
 			//{ label: '', name: 'timeStyle', index: 'time_style', width: 80 },
-			{ label: '', name: 'strategyName', index: 'strategy_name', width: 100 },
-			{ label: '', name: 'trailingBuy', index: 'trailing_Buy', width: 60 },
-			{ label: '', name: 'buyValue', index: 'buy_Value', width: 60 },
-			{ label: '', name: 'sellValue', index: 'sell_Value', width: 60 },
-			{ label: '', name: 'trailingProfit', index: 'trailing_Profit', width: 60 },
+			{ label: '', name: 'strategyName', index: 'strategy_name', width: 120 },
+			{ label: '', name: 'trailingBuy', index: 'trailing_Buy', width: 50 },
+			{ label: '', name: 'buyValue', index: 'buy_Value', width: 50 },
+			{ label: '', name: 'sellValue', index: 'sell_Value', width: 50 },
+			{ label: '', name: 'trailingProfit', index: 'trailing_Profit', width: 50 },
 			{ label: '', name: 'totalProfit', index: 'total_profit', width: 80 }, 			
 			{ label: '', name: 'rewardRisk', index: 'Reward_risk', width: 80 }, 			
 			{ label: '', name: 'maximumDrawdown', index: 'Maximum_drawdown', width: 80 },
@@ -76,10 +76,14 @@ var vm = new Vue({
 			if(id == null){
 				return ;
 			}
-			vm.showList = false;
+			vm.showList = true;
             vm.title = "修改";
-            
-            vm.getInfo(id)
+            var url1 =  baseURL +   "user/runresult/list2/"+id;
+
+            window.open(url1, "_blank");
+
+
+          //  vm.getInfo(id)
 		},
 		saveOrUpdate: function (event) {
 			var url = vm.goodRunResult.id == null ? "user/goodrunresult/save" : "user/goodrunresult/update";

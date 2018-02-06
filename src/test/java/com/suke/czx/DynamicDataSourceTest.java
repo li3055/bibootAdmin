@@ -38,8 +38,8 @@ public class DynamicDataSourceTest {
     }
     @Test
     public void test22()throws  Exception{
-        Date start = DateUtils.strToDate("2018-01-01 01:00:00");
-        Date end = DateUtils.strToDate("2018-02-04 10:30:00" );
+        Date start = DateUtils.parseDate("2018-01-01 01:00:00","yyyy-MM-dd HH:mm:ss");
+        Date end = DateUtils.parseDate("2018-02-04 10:30:00","yyyy-MM-dd HH:mm:ss" );
         String base = "http://localhost:8800/backtest/single?";
         String params = "startDate="+start.getTime()+"&endDate="+end.getTime()+"&symbol="+"ETHBTC"+"&trailingBuy=1&buyValue=10&sellValue=10&trailingProfit=1";
        Object single = CHttpRequest.sendPost( base+params,"");
