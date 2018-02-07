@@ -33,7 +33,8 @@ $(function () {
         rownumWidth: 25, 
         autowidth:true,
         multiselect: true,
-        pager: "#jqGridPager",
+        multiboxonly:true,
+    pager: "#jqGridPager",
         jsonReader : {
             root: "page.list",
             page: "page.currPage",
@@ -56,7 +57,8 @@ var vm = new Vue({
 	el:'#rrapp',
 	data:{
         q:{
-            symbol: null
+            symbol: null,
+            strategyName:null
         },
 		showList: true,
 		title: null,
@@ -136,7 +138,7 @@ var vm = new Vue({
 			vm.showList = true;
 			var page = $("#jqGrid").jqGrid('getGridParam','page');
 			$("#jqGrid").jqGrid('setGridParam',{
-                postData:{'symbol': vm.q.symbol},
+                postData:{'symbol': vm.q.symbol,'strategyName':vm.q.strategyName},
                 page:page
             }).trigger("reloadGrid");
 		}

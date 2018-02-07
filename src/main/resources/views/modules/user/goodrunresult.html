@@ -26,6 +26,9 @@
 			<div class="form-group col-sm-2">
 				<select name="cars" class="form-control" v-model="q.symbol" @keyup.enter="query">
 					<option value="BTCUSDT" >BTCUSDT</option>
+					<option value="ETHUSDT" >ETHUSDT</option>
+					<option value="BNBUSDT" >BNBUSDT</option>
+					<option value="NEOUSDT" >NEOUSDT</option>
 					<option value="ADABTC" >ADA</option>
 					<option value="ETHBTC" selected>ETH</option>   //预选设置
 					<option value="XLMBTC" >XLMBTC</option>
@@ -68,7 +71,6 @@
 					<option value="BCCBTC" >BCCBTC</option>
 					<option value="BTGBTC" >BTGBTC</option>
 					<option value="BCDBTC" >BCDBTC</option>
-					<option value="LTCBTC" >LTCBTC</option>
 					<option value="NAVBTC" >NAVBTC</option>
 					<option value="DNTBTC" >DNTBTC</option>
 					<option value="KMDBTC" >KMDBTC</option>
@@ -80,9 +82,11 @@
 					<option value="ASTBTC" >ASTBTC</option>
 				</select>
 			</div>
+			<div class="form-group col-sm-2">
+				<input type="text" class="form-control"  v-model="q.strategyName" @keyup.enter="query" placeholder="strategyName">
+			</div>
 			<a class="btn btn-default" @click="query">查询</a>
 
-			<a v-if="hasPermission('user:goodrunresult:save')" class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
 			<a v-if="hasPermission('user:goodrunresult:update')" class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;回测</a>
 			<a v-if="hasPermission('user:goodrunresult:delete')" class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;配置</a>
 		</div>

@@ -79,14 +79,28 @@ var vm = new Vue({
 			vm.runResult = {};
 		},
 		update: function (event) {
-			var id = getSelectedRow();
-			if(id == null){
-				return ;
-			}
-			vm.showList = false;
-            vm.title = "修改";
-            
-            vm.getInfo(id)
+            var ids = getSelectedRows();
+            if(ids == null){
+                return ;
+            }
+
+            confirm('确定要写入保守配置？', function(){
+                $.ajax({
+                    type: "POST",
+                    url: baseURL + "user/runresult/update",
+                    contentType: "application/json",
+                    data: JSON.stringify(ids),
+                    success: function(r){
+                        if(r.code == 0){
+                            alert('操作成功', function(index){
+                                $("#jqGrid").trigger("reloadGrid");
+                            });
+                        }else{
+                            alert(r.msg);
+                        }
+                    }
+                });
+            });
 		},
 		saveOrUpdate: function (event) {
 			var url = vm.runResult.id == null ? "user/runresult/save" : "user/runresult/update";
@@ -98,7 +112,7 @@ var vm = new Vue({
 			    success: function(r){
 			    	if(r.code === 0){
 						alert('操作成功', function(index){
-							vm.reload();
+							//vm.reload();
 						});
 					}else{
 						alert(r.msg);
@@ -112,7 +126,7 @@ var vm = new Vue({
 				return ;
 			}
 			
-			confirm('确定要删除选中的记录？', function(){
+			confirm('牛配置？', function(){
 				$.ajax({
 					type: "POST",
 				    url: baseURL + "user/runresult/delete",
@@ -121,7 +135,7 @@ var vm = new Vue({
 				    success: function(r){
 						if(r.code == 0){
 							alert('操作成功', function(index){
-								$("#jqGrid").trigger("reloadGrid");
+								//$("#jqGrid").trigger("reloadGrid");
 							});
 						}else{
 							alert(r.msg);
