@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.suke.czx.modules.user.dao.TokenInfoDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.suke.czx.modules.user.entity.TokenInfoEntity" id="tokenInfoMap">
+        <result property="id" column="id"/>
+        <result property="collectDateInt" column="collect_date_int"/>
+        <result property="symbol" column="symbol"/>
+        <result property="totalApply" column="total_apply"/>
+        <result property="pre50Percent" column="pre_50_percent"/>
+        <result property="pre100Percent" column="pre_100_percent"/>
+        <result property="pre150Percent" column="pre_150_percent"/>
+        <result property="pre200Percent" column="pre_200_percent"/>
+        <result property="pre50D1" column="pre_50_d1"/>
+        <result property="pre50D3" column="pre_50_d3"/>
+        <result property="pre50D7" column="pre_50_d7"/>
+        <result property="pre50D15" column="pre_50_d15"/>
+        <result property="pre50D30" column="pre_50_d30"/>
+        <result property="pre50D45" column="pre_50_d45"/>
+        <result property="pre100D1" column="pre_100_d1"/>
+        <result property="pre100D3" column="pre_100_d3"/>
+        <result property="pre100D7" column="pre_100_d7"/>
+        <result property="pre100D15" column="pre_100_d15"/>
+        <result property="pre100D30" column="pre_100_d30"/>
+        <result property="pre100D45" column="pre_100_d45"/>
+        <result property="pre150D1" column="pre_150_d1"/>
+        <result property="pre150D3" column="pre_150_d3"/>
+        <result property="pre150D7" column="pre_150_d7"/>
+        <result property="pre150D15" column="pre_150_d15"/>
+        <result property="pre150D30" column="pre_150_d30"/>
+        <result property="pre150D45" column="pre_150_d45"/>
+        <result property="pre200D1" column="pre_200_d1"/>
+        <result property="pre200D3" column="pre_200_d3"/>
+        <result property="pre200D7" column="pre_200_d7"/>
+        <result property="pre200D15" column="pre_200_d15"/>
+        <result property="pre200D30" column="pre_200_d30"/>
+        <result property="pre200D45" column="pre_200_d45"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="com.suke.czx.modules.user.entity.TokenInfoEntity">
+		select * from token_info where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.suke.czx.modules.user.entity.TokenInfoEntity">
+		select * from token_info
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from token_info 
+	</select>
+	 
+	<insert id="save" parameterType="com.suke.czx.modules.user.entity.TokenInfoEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into token_info
+		(
+			`collect_date_int`, 
+			`symbol`, 
+			`total_apply`, 
+			`pre_50_percent`, 
+			`pre_100_percent`, 
+			`pre_150_percent`, 
+			`pre_200_percent`, 
+			`pre_50_d1`, 
+			`pre_50_d3`, 
+			`pre_50_d7`, 
+			`pre_50_d15`, 
+			`pre_50_d30`, 
+			`pre_50_d45`, 
+			`pre_100_d1`, 
+			`pre_100_d3`, 
+			`pre_100_d7`, 
+			`pre_100_d15`, 
+			`pre_100_d30`, 
+			`pre_100_d45`, 
+			`pre_150_d1`, 
+			`pre_150_d3`, 
+			`pre_150_d7`, 
+			`pre_150_d15`, 
+			`pre_150_d30`, 
+			`pre_150_d45`, 
+			`pre_200_d1`, 
+			`pre_200_d3`, 
+			`pre_200_d7`, 
+			`pre_200_d15`, 
+			`pre_200_d30`, 
+			`pre_200_d45`
+		)
+		values
+		(
+			#{collectDateInt}, 
+			#{symbol}, 
+			#{totalApply}, 
+			#{pre50Percent}, 
+			#{pre100Percent}, 
+			#{pre150Percent}, 
+			#{pre200Percent}, 
+			#{pre50D1}, 
+			#{pre50D3}, 
+			#{pre50D7}, 
+			#{pre50D15}, 
+			#{pre50D30}, 
+			#{pre50D45}, 
+			#{pre100D1}, 
+			#{pre100D3}, 
+			#{pre100D7}, 
+			#{pre100D15}, 
+			#{pre100D30}, 
+			#{pre100D45}, 
+			#{pre150D1}, 
+			#{pre150D3}, 
+			#{pre150D7}, 
+			#{pre150D15}, 
+			#{pre150D30}, 
+			#{pre150D45}, 
+			#{pre200D1}, 
+			#{pre200D3}, 
+			#{pre200D7}, 
+			#{pre200D15}, 
+			#{pre200D30}, 
+			#{pre200D45}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.suke.czx.modules.user.entity.TokenInfoEntity">
+		update token_info 
+		<set>
+			<if test="collectDateInt != null">`collect_date_int` = #{collectDateInt}, </if>
+			<if test="symbol != null">`symbol` = #{symbol}, </if>
+			<if test="totalApply != null">`total_apply` = #{totalApply}, </if>
+			<if test="pre50Percent != null">`pre_50_percent` = #{pre50Percent}, </if>
+			<if test="pre100Percent != null">`pre_100_percent` = #{pre100Percent}, </if>
+			<if test="pre150Percent != null">`pre_150_percent` = #{pre150Percent}, </if>
+			<if test="pre200Percent != null">`pre_200_percent` = #{pre200Percent}, </if>
+			<if test="pre50D1 != null">`pre_50_d1` = #{pre50D1}, </if>
+			<if test="pre50D3 != null">`pre_50_d3` = #{pre50D3}, </if>
+			<if test="pre50D7 != null">`pre_50_d7` = #{pre50D7}, </if>
+			<if test="pre50D15 != null">`pre_50_d15` = #{pre50D15}, </if>
+			<if test="pre50D30 != null">`pre_50_d30` = #{pre50D30}, </if>
+			<if test="pre50D45 != null">`pre_50_d45` = #{pre50D45}, </if>
+			<if test="pre100D1 != null">`pre_100_d1` = #{pre100D1}, </if>
+			<if test="pre100D3 != null">`pre_100_d3` = #{pre100D3}, </if>
+			<if test="pre100D7 != null">`pre_100_d7` = #{pre100D7}, </if>
+			<if test="pre100D15 != null">`pre_100_d15` = #{pre100D15}, </if>
+			<if test="pre100D30 != null">`pre_100_d30` = #{pre100D30}, </if>
+			<if test="pre100D45 != null">`pre_100_d45` = #{pre100D45}, </if>
+			<if test="pre150D1 != null">`pre_150_d1` = #{pre150D1}, </if>
+			<if test="pre150D3 != null">`pre_150_d3` = #{pre150D3}, </if>
+			<if test="pre150D7 != null">`pre_150_d7` = #{pre150D7}, </if>
+			<if test="pre150D15 != null">`pre_150_d15` = #{pre150D15}, </if>
+			<if test="pre150D30 != null">`pre_150_d30` = #{pre150D30}, </if>
+			<if test="pre150D45 != null">`pre_150_d45` = #{pre150D45}, </if>
+			<if test="pre200D1 != null">`pre_200_d1` = #{pre200D1}, </if>
+			<if test="pre200D3 != null">`pre_200_d3` = #{pre200D3}, </if>
+			<if test="pre200D7 != null">`pre_200_d7` = #{pre200D7}, </if>
+			<if test="pre200D15 != null">`pre_200_d15` = #{pre200D15}, </if>
+			<if test="pre200D30 != null">`pre_200_d30` = #{pre200D30}, </if>
+			<if test="pre200D45 != null">`pre_200_d45` = #{pre200D45}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from token_info where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from token_info where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.suke.czx.modules.user.dao.TokenHolderDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.suke.czx.modules.user.entity.TokenHolderEntity" id="tokenHolderMap">
+        <result property="id" column="id"/>
+        <result property="collectDateInt" column="collect_date_int"/>
+        <result property="symbol" column="symbol"/>
+        <result property="address" column="address"/>
+        <result property="rank" column="rank"/>
+        <result property="percent" column="percent"/>
+        <result property="balance" column="balance"/>
+        <result property="percent1" column="percent_1"/>
+        <result property="percent3" column="percent_3"/>
+        <result property="percent7" column="percent_7"/>
+        <result property="percent15" column="percent_15"/>
+        <result property="percent30" column="percent_30"/>
+        <result property="percent45" column="percent_45"/>
+        <result property="balance1" column="balance_1"/>
+        <result property="balance3" column="balance_3"/>
+        <result property="balance7" column="balance_7"/>
+        <result property="balance15" column="balance_15"/>
+        <result property="balance30" column="balance_30"/>
+        <result property="balance45" column="balance_45"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="com.suke.czx.modules.user.entity.TokenHolderEntity">
+		select * from token_holder where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.suke.czx.modules.user.entity.TokenHolderEntity">
+		select * from token_holder
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from token_holder 
+	</select>
+	 
+	<insert id="save" parameterType="com.suke.czx.modules.user.entity.TokenHolderEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into token_holder
+		(
+			`collect_date_int`, 
+			`symbol`, 
+			`address`, 
+			`rank`, 
+			`percent`, 
+			`balance`, 
+			`percent_1`, 
+			`percent_3`, 
+			`percent_7`, 
+			`percent_15`, 
+			`percent_30`, 
+			`percent_45`, 
+			`balance_1`, 
+			`balance_3`, 
+			`balance_7`, 
+			`balance_15`, 
+			`balance_30`, 
+			`balance_45`
+		)
+		values
+		(
+			#{collectDateInt}, 
+			#{symbol}, 
+			#{address}, 
+			#{rank}, 
+			#{percent}, 
+			#{balance}, 
+			#{percent1}, 
+			#{percent3}, 
+			#{percent7}, 
+			#{percent15}, 
+			#{percent30}, 
+			#{percent45}, 
+			#{balance1}, 
+			#{balance3}, 
+			#{balance7}, 
+			#{balance15}, 
+			#{balance30}, 
+			#{balance45}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.suke.czx.modules.user.entity.TokenHolderEntity">
+		update token_holder 
+		<set>
+			<if test="collectDateInt != null">`collect_date_int` = #{collectDateInt}, </if>
+			<if test="symbol != null">`symbol` = #{symbol}, </if>
+			<if test="address != null">`address` = #{address}, </if>
+			<if test="rank != null">`rank` = #{rank}, </if>
+			<if test="percent != null">`percent` = #{percent}, </if>
+			<if test="balance != null">`balance` = #{balance}, </if>
+			<if test="percent1 != null">`percent_1` = #{percent1}, </if>
+			<if test="percent3 != null">`percent_3` = #{percent3}, </if>
+			<if test="percent7 != null">`percent_7` = #{percent7}, </if>
+			<if test="percent15 != null">`percent_15` = #{percent15}, </if>
+			<if test="percent30 != null">`percent_30` = #{percent30}, </if>
+			<if test="percent45 != null">`percent_45` = #{percent45}, </if>
+			<if test="balance1 != null">`balance_1` = #{balance1}, </if>
+			<if test="balance3 != null">`balance_3` = #{balance3}, </if>
+			<if test="balance7 != null">`balance_7` = #{balance7}, </if>
+			<if test="balance15 != null">`balance_15` = #{balance15}, </if>
+			<if test="balance30 != null">`balance_30` = #{balance30}, </if>
+			<if test="balance45 != null">`balance_45` = #{balance45}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from token_holder where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from token_holder where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

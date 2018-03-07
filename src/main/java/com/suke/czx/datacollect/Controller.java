@@ -6,6 +6,8 @@ import edu.uci.ics.crawler4j.fetcher.PageFetcher;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 
+import java.util.List;
+
 
 public class Controller {
     public static void main(String[] args) throws Exception {
@@ -37,5 +39,15 @@ public class Controller {
          * will reach the line after this only when crawling is finished.
          */
         controller.start(MyCrawler.class, numberOfCrawlers);
+        List<Object> crawlersLocalData = controller.getCrawlersLocalData(); // 当多个线程爬虫完成任务时，获取爬虫本地数据
+        long totalLinks = 0;
+        long totalTextSize = 0;
+        int totalProcessedPages = 0;
+        for (Object localData : crawlersLocalData) {
+            MyCrawler stat = (MyCrawler) localData;
+            System.err.println("==========================" +stat.getContent());
+        }
+
+
     }
 }

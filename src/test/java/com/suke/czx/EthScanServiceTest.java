@@ -20,8 +20,16 @@ public class EthScanServiceTest {
         ethScanService.getSymbolTotalBalance("BNB");
     }
     @Test
-    public void test22()throws  Exception{
-
+    public void collectData2()throws  Exception{
+        ethScanService.collectData("BNB",2);
+    }
+    @Test
+    public void collectData3()throws  Exception{
+        ethScanService.collectData("BNB",3);
+    }
+    @Test
+    public void collectData4()throws  Exception{
+        ethScanService.collectData("BNB",4);
     }
 
 }
