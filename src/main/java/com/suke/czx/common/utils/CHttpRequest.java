@@ -235,6 +235,20 @@ public class CHttpRequest
 	        inStream.close();  
 	        //把outStream里的数据写入内存  
 	        return outStream.toByteArray();  
-	    }  
+	    }
+
+	    public static void main(String[] args){
+	 	String token = "MIHJ7T7ZP1V5N6ABHZ27P7XDB7PB1S3KC3";
+			//0xB8c77482e45F1F44dE1745F52C74426C631bDD52?a=0x841b5b0c5f903b24b1eb98bbf282417aa68ba2b3
+//	 	String url = "https://api.etherscan.io/api?module=stats&action=tokensupply&contractaddress=0xB8c77482e45F1F44dE1745F52C74426C631bDD52&apikey="+token;
+String url="https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=0xB8c77482e45F1F44dE1745F52C74426C631bDD52&address=0x36e75c5f6c9ea257da03935ddc0d0cd42da0929e&tag=latest&apikey="+token;
+	 //	String url = "https://etherscan.io/token/generic-tokenholders2?a=0xB8c77482e45F1F44dE1745F52C74426C631bDD52&s=1.97192382E+26&p=1";
+			Object o = sendPost(url, "");
+			String resq = o.toString();
+			System.out.println(resq);
+		}
 	
 }
+//38978382286943823163224706
+//38978382 286943823163224706
+  //5000030000000000

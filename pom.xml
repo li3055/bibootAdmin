@@ -201,6 +201,12 @@
 			<version>2.6.1</version>
 		</dependency>
 
+		<dependency>
+			<groupId>edu.uci.ics</groupId>
+			<artifactId>crawler4j</artifactId>
+			<version>4.3</version>
+		</dependency>
+
 		<!--webmagic !!!-->
 		<dependency>
 			<groupId>us.codecraft</groupId>

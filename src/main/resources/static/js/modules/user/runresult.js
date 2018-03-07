@@ -2,26 +2,26 @@ $(function () {
     $("#jqGrid").jqGrid({
         url: baseURL + 'user/runresult/list',
         datatype: "json",
-        colModel: [			
-			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
-			{ label: '', name: 'symbol', index: 'symbol', width: 80 }, 			
-			{ label: '', name: 'trailingBuy', index: 'trailing_Buy', width: 80 },
-			{ label: '', name: 'buyValue', index: 'buy_Value', width: 80 }, 			
-			{ label: '', name: 'sellValue', index: 'sell_Value', width: 80 }, 			
-			{ label: '', name: 'trailingProfit', index: 'trailing_Profit', width: 80 }, 			
-			{ label: '', name: 'totalProfit', index: 'total_profit', width: 110 },
+        colModel: [
+            { label: '', name: 'symbol', index: 'symbol', width: 80 },
+            { label: '', name: 'startdate', index: 'startDate', width: 90 },
+            { label: '', name: 'enddate', index: 'endDate', width: 90 },
+            { label: '', name: 'totalProfit', index: 'total_profit', width: 110 },
             { label: '', name: 'rewardRisk', index: 'Reward_risk', width: 110 },
             { label: '', name: 'maximumDrawdown', index: 'Maximum_drawdown', width: 80 },
             { label: '', name: 'numberOfTicks', index: 'Number_Of_Ticks', width: 80 },
             { label: '', name: 'numberOfTrades', index: 'Number_Of_Trades', width: 80 },
             { label: '', name: 'dataCount', index: 'data_count', width: 80 },
-            { label: '', name: 'startdate', index: 'startDate', width: 80 },
-            { label: '', name: 'enddate', index: 'endDate', width: 80 },
-         //   { label: '', name: 'avgProfit', index: 'avg_profit', width: 80 },
+            { label: '', name: 'buyAndHold', index: 'Buy_and_hold', width: 80 },
+            { label: 'id', name: 'id', index: 'id', width: 50, key: true },
+            { label: '', name: 'trailingBuy', index: 'trailing_Buy', width: 80 },
+            { label: '', name: 'buyValue', index: 'buy_Value', width: 80 },
+            { label: '', name: 'sellValue', index: 'sell_Value', width: 80 },
+            //   { label: '', name: 'avgProfit', index: 'avg_profit', width: 80 },
 		//	{ label: '', name: 'averageProfitableTrades', index: 'Average_Profitable_Trades', width: 80 },
 		//	{ label: '', name: 'transactionCost', index: 'transaction_cost', width: 80 },
-			{ label: '', name: 'buyAndHold', index: 'Buy_and_hold', width: 80 }
-	//		{ label: '', name: 'strategyVsHold', index: 'strategy_vs_hold', width: 80 },
+            { label: '', name: 'trailingProfit', index: 'trailing_Profit', width: 80 }
+            //		{ label: '', name: 'strategyVsHold', index: 'strategy_vs_hold', width: 80 },
 	//		{ label: '', name: 'startTime', index: 'start_time', width: 80 },
 	//		{ label: '', name: 'endTime', index: 'end_time', width: 80 }
         ],
@@ -93,7 +93,7 @@ var vm = new Vue({
                     success: function(r){
                         if(r.code == 0){
                             alert('操作成功', function(index){
-                                $("#jqGrid").trigger("reloadGrid");
+                              //  $("#jqGrid").trigger("reloadGrid");
                             });
                         }else{
                             alert(r.msg);

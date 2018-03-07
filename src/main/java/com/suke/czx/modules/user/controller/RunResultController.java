@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -72,35 +73,53 @@ public class RunResultController {
 
     private List<String> makeUrls(String symbol, String trailingBuy, String buyValue, String sellValue, String trailingProfit) {
         List<String> urls = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+
+        for (int i = 0; i < 6; i++) {
             StringBuffer bf = new StringBuffer("http://localhost:8800/backtest/single?");
             Date start = null;
             Date end = null;
 
             if (i == 0) {
                 start = DateUtils.parseDate("2018-01-01 02:00:00", "yyyy-MM-dd HH:mm:ss");
-                end = DateUtils.parseDate("2018-02-07 10:00:00", "yyyy-MM-dd HH:mm:ss");
+                end = DateUtils.parseDate("2018-03-05 10:00:00", "yyyy-MM-dd HH:mm:ss");
                 bf.append("startDate=").append(start.getTime()).append("&");
                 bf.append("endDate=").append(end.getTime()).append("&");
+
             } else if (i == 1) {
-                start = DateUtils.parseDate("2018-01-01 03:00:00", "yyyy-MM-dd HH:mm:ss");
-                end = DateUtils.parseDate("2018-01-17 12:00:00", "yyyy-MM-dd HH:mm:ss");
+
+                start = DateUtils.parseDate("2018-01-01 02:00:00", "yyyy-MM-dd HH:mm:ss");
+                end = DateUtils.parseDate("2018-02-01 10:00:00", "yyyy-MM-dd HH:mm:ss");
                 bf.append("startDate=").append(start.getTime()).append("&");
                 bf.append("endDate=").append(end.getTime()).append("&");
+
             } else if (i == 2) {
-                start = DateUtils.parseDate("2018-01-17 12:00:00", "yyyy-MM-dd HH:mm:ss");
-                end = DateUtils.parseDate("2018-02-07 10:00:00", "yyyy-MM-dd HH:mm:ss");
+
+                start = DateUtils.parseDate("2018-02-01 12:00:00", "yyyy-MM-dd HH:mm:ss");
+                end = DateUtils.parseDate("2018-03-01 10:00:00", "yyyy-MM-dd HH:mm:ss");
                 bf.append("startDate=").append(start.getTime()).append("&");
                 bf.append("endDate=").append(end.getTime()).append("&");
-            } else if(i==3){
-                start = DateUtils.parseDate("2018-01-28 02:00:00", "yyyy-MM-dd HH:mm:ss");
-                end = DateUtils.parseDate("2018-02-07 10:00:00", "yyyy-MM-dd HH:mm:ss");
+
+            } else if (i == 3) {
+
+                start = DateUtils.parseDate("2018-02-17 12:00:00", "yyyy-MM-dd HH:mm:ss");
+                end = DateUtils.parseDate("2018-03-05 10:00:00", "yyyy-MM-dd HH:mm:ss");
                 bf.append("startDate=").append(start.getTime()).append("&");
                 bf.append("endDate=").append(end.getTime()).append("&");
-            }
-            else {
-                start = DateUtils.parseDate("2018-02-02 02:00:00", "yyyy-MM-dd HH:mm:ss");
-                end = DateUtils.parseDate("2018-02-07 10:00:00", "yyyy-MM-dd HH:mm:ss");
+
+            } else if (i == 4) {
+
+                start = DateUtils.parseDate("2018-02-25 02:00:00", "yyyy-MM-dd HH:mm:ss");
+                end = DateUtils.parseDate("2018-03-05 10:00:00", "yyyy-MM-dd HH:mm:ss");
+                bf.append("startDate=").append(start.getTime()).append("&");
+                bf.append("endDate=").append(end.getTime()).append("&");
+            } else if (i == 5) {
+                start = DateUtils.parseDate("2018-02-27 02:00:00", "yyyy-MM-dd HH:mm:ss");
+                end = DateUtils.parseDate("2018-03-05 10:00:00", "yyyy-MM-dd HH:mm:ss");
+                bf.append("startDate=").append(start.getTime()).append("&");
+                bf.append("endDate=").append(end.getTime()).append("&");
+            } else {
+                start = DateUtils.parseDate("2018-02-15 02:00:00", "yyyy-MM-dd HH:mm:ss");
+                end = DateUtils.parseDate("2018-03-02 10:00:00", "yyyy-MM-dd HH:mm:ss");
                 bf.append("startDate=").append(start.getTime()).append("&");
                 bf.append("endDate=").append(end.getTime()).append("&");
             }
@@ -123,17 +142,52 @@ public class RunResultController {
         for (String url : urls) {
             futures.add(fixedThreadPool.submit(new RunStategyCall(url)));//submit返回一个Future，代表了即将要返回的结果
         }
-       // System.out.println("获取结果中...");
+        // System.out.println("获取结果中...");
+        RunResultEntity sum = new RunResultEntity();
         for (Future<RunResultEntity> f : futures) {
             try {
                 RunResultEntity da = f.get();
                 da.setId(runId);
                 runResultList.add(da);
+                caculateBad(sum, da);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+        runResultList.add(sum);
+
+
         return runResultList;
+    }
+
+    public RunResultEntity caculateBad(RunResultEntity badResult, RunResultEntity r) {
+        if (badResult.getRewardRisk() == null) {
+            badResult.setTotalProfit(r.getTotalProfit());
+            badResult.setRewardRisk(r.getRewardRisk());
+            badResult.setMaximumDrawdown(r.getMaximumDrawdown());
+            badResult.setTransactionCost(BigDecimal.valueOf(1));
+        }
+        if (r.getTotalProfit() != null) {
+
+
+            BigDecimal totalProfit = badResult.getTotalProfit();
+            BigDecimal rewardRisk = badResult.getRewardRisk();
+            BigDecimal maximumDrawdown = badResult.getMaximumDrawdown();
+
+            BigDecimal badTimes = badResult.getTransactionCost();
+            if (badTimes == null) {
+                badTimes = BigDecimal.valueOf(1);
+            }
+            BigDecimal divceCount = badTimes.add(BigDecimal.valueOf(1));
+            totalProfit = totalProfit.multiply(badTimes).add(r.getTotalProfit());
+            rewardRisk = rewardRisk.multiply(badTimes).add(r.getRewardRisk());
+            maximumDrawdown = maximumDrawdown.multiply(badTimes).add(r.getMaximumDrawdown());
+            badResult.setTotalProfit(totalProfit.divide(divceCount, 3, BigDecimal.ROUND_HALF_UP));
+            badResult.setRewardRisk(rewardRisk.divide(divceCount, 3, BigDecimal.ROUND_HALF_UP));
+            badResult.setMaximumDrawdown(maximumDrawdown.divide(divceCount, 3, BigDecimal.ROUND_HALF_UP));
+            badResult.setTransactionCost(divceCount);
+        }
+        return badResult;
     }
 
 
@@ -205,7 +259,7 @@ public class RunResultController {
     @RequestMapping("/delete")
     @RequiresPermissions("user:runresult:delete")
     public R niu(@RequestBody Integer[] ids) {
-        goodRunResultService.udpateByRunResult(ids[0],BibootAdminConstant.NIU);
+        goodRunResultService.udpateByRunResult(ids[0], BibootAdminConstant.NIU);
 
         return R.ok();
     }
