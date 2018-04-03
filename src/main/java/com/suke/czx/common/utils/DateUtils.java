@@ -11,7 +11,6 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 
 public class DateUtils extends org.apache.commons.lang.time.DateUtils{
@@ -22,6 +21,10 @@ public class DateUtils extends org.apache.commons.lang.time.DateUtils{
     public static String dispaly(long timeM){
         return  DateUtils.format(new Date(timeM),"yyyy-MM-dd HH:mm:ss");
     }
+
+
+
+
 
     /**
      * 判断字符串是否为日期格式
@@ -222,12 +225,25 @@ public class DateUtils extends org.apache.commons.lang.time.DateUtils{
         long hourTimeInMillis = 60 * 60 * 1000;
         return (int)Math.floor((double)(greaterTimeInMillis - littleTimeInMillis) / hourTimeInMillis);
     }
+    public static void UTCToCST(String UTCStr, String format) throws ParseException {
+        Date date = null;
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        date = sdf.parse(UTCStr);
+        System.out.println("UTC时间: " + date);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR, calendar.get(Calendar.HOUR) + 8);
+        //calendar.getTime() 返回的是Date类型，也可以使用calendar.getTimeInMillis()获取时间戳
+        System.out.println("北京时间: " + calendar.getTime());
+    }
 
-    public static void main(String[] args){
-        System.out.println(format(new Date(1517846400000L),"yyyyMMdd HH:mm:ss"));
-        Date start = DateUtils.parseDate("2018-01-20 07:10:00", "yyyy-MM-dd HH:mm:ss");
+    public static void main(String[] args)throws Exception{
+//        System.out.println(format(new Date(1517846400000L),"yyyyMMdd HH:mm:ss"));
+//        Date start = DateUtils.parseDate("2018-01-20 07:10:00", "yyyy-MM-dd HH:mm:ss");
+//
+//        System.out.println(start.getTime() );
 
-        System.out.println(start.getTime() );
+        UTCToCST("2018-03-23T06:21:03.944Z", "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
     }
 
 

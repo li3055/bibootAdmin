@@ -34,7 +34,7 @@ public class RunResultController {
     @Autowired
     private GoodRunResultService goodRunResultService;
 
-    static int runId = 0;
+    static Integer runId;
 
     /**
      * 列表
@@ -62,7 +62,7 @@ public class RunResultController {
             String sellValue = goodRunResultEntity.getSellValue().toString();
             String trailingProfit = goodRunResultEntity.getTrailingProfit().toString();
             List<String> urls = makeUrls(symbol, trailingBuy, buyValue, sellValue, trailingProfit);
-            runResultList = batchRunFurtherInter(urls);
+            runResultList = batchRunFurtherInter(urls,runId);
         }
 
         PageUtils pageUtil = new PageUtils(runResultList, total, query.getLimit(), query.getPage());
@@ -74,14 +74,15 @@ public class RunResultController {
     private List<String> makeUrls(String symbol, String trailingBuy, String buyValue, String sellValue, String trailingProfit) {
         List<String> urls = new ArrayList<>();
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 1; i++) {
             StringBuffer bf = new StringBuffer("http://localhost:8800/backtest/single?");
             Date start = null;
             Date end = null;
 
             if (i == 0) {
-                start = DateUtils.parseDate("2018-01-01 02:00:00", "yyyy-MM-dd HH:mm:ss");
-                end = DateUtils.parseDate("2018-03-05 10:00:00", "yyyy-MM-dd HH:mm:ss");
+
+                  start = DateUtils.parseDate("2018-01-01 05:35:00", "yyyy-MM-dd HH:mm:ss");
+                  end = DateUtils.parseDate("2018-03-06 09:15:00", "yyyy-MM-dd HH:mm:ss");
                 bf.append("startDate=").append(start.getTime()).append("&");
                 bf.append("endDate=").append(end.getTime()).append("&");
 
@@ -95,31 +96,31 @@ public class RunResultController {
             } else if (i == 2) {
 
                 start = DateUtils.parseDate("2018-02-01 12:00:00", "yyyy-MM-dd HH:mm:ss");
-                end = DateUtils.parseDate("2018-03-01 10:00:00", "yyyy-MM-dd HH:mm:ss");
+                end = DateUtils.parseDate("2018-03-13 10:00:00", "yyyy-MM-dd HH:mm:ss");
                 bf.append("startDate=").append(start.getTime()).append("&");
                 bf.append("endDate=").append(end.getTime()).append("&");
 
             } else if (i == 3) {
 
                 start = DateUtils.parseDate("2018-02-17 12:00:00", "yyyy-MM-dd HH:mm:ss");
-                end = DateUtils.parseDate("2018-03-05 10:00:00", "yyyy-MM-dd HH:mm:ss");
+                end = DateUtils.parseDate("2018-03-13 10:00:00", "yyyy-MM-dd HH:mm:ss");
                 bf.append("startDate=").append(start.getTime()).append("&");
                 bf.append("endDate=").append(end.getTime()).append("&");
 
             } else if (i == 4) {
 
-                start = DateUtils.parseDate("2018-02-25 02:00:00", "yyyy-MM-dd HH:mm:ss");
-                end = DateUtils.parseDate("2018-03-05 10:00:00", "yyyy-MM-dd HH:mm:ss");
+                start = DateUtils.parseDate("2018-02-23 02:00:00", "yyyy-MM-dd HH:mm:ss");
+                end = DateUtils.parseDate("2018-03-13 10:00:00", "yyyy-MM-dd HH:mm:ss");
                 bf.append("startDate=").append(start.getTime()).append("&");
                 bf.append("endDate=").append(end.getTime()).append("&");
             } else if (i == 5) {
-                start = DateUtils.parseDate("2018-02-27 02:00:00", "yyyy-MM-dd HH:mm:ss");
-                end = DateUtils.parseDate("2018-03-05 10:00:00", "yyyy-MM-dd HH:mm:ss");
+                start = DateUtils.parseDate("2018-03-01 02:00:00", "yyyy-MM-dd HH:mm:ss");
+                end = DateUtils.parseDate("2018-03-13 10:00:00", "yyyy-MM-dd HH:mm:ss");
                 bf.append("startDate=").append(start.getTime()).append("&");
                 bf.append("endDate=").append(end.getTime()).append("&");
             } else {
-                start = DateUtils.parseDate("2018-02-15 02:00:00", "yyyy-MM-dd HH:mm:ss");
-                end = DateUtils.parseDate("2018-03-02 10:00:00", "yyyy-MM-dd HH:mm:ss");
+                start = DateUtils.parseDate("2018-03-07 02:00:00", "yyyy-MM-dd HH:mm:ss");
+                end = DateUtils.parseDate("2018-03-13 10:00:00", "yyyy-MM-dd HH:mm:ss");
                 bf.append("startDate=").append(start.getTime()).append("&");
                 bf.append("endDate=").append(end.getTime()).append("&");
             }
@@ -135,7 +136,8 @@ public class RunResultController {
         return urls;
     }
 
-    private List<RunResultEntity> batchRunFurtherInter(List<String> urls) {
+    private List<RunResultEntity> batchRunFurtherInter(List<String> urls,Integer runId) {
+        Integer id = runId;
         List<RunResultEntity> runResultList = new ArrayList<>();
         ExecutorService fixedThreadPool = Executors.newFixedThreadPool(4);
         ArrayList<Future<RunResultEntity>> futures = new ArrayList<Future<RunResultEntity>>();//
@@ -147,7 +149,7 @@ public class RunResultController {
         for (Future<RunResultEntity> f : futures) {
             try {
                 RunResultEntity da = f.get();
-                da.setId(runId);
+                da.setId(id);
                 runResultList.add(da);
                 caculateBad(sum, da);
             } catch (Exception e) {
@@ -204,7 +206,7 @@ public class RunResultController {
         String sellValue = query.get("sellValue").toString();
         String trailingProfit = query.get("trailingProfit").toString();
         List<String> urls = makeUrls(symbol, trailingBuy, buyValue, sellValue, trailingProfit);
-        runResultList = batchRunFurtherInter(urls);
+        runResultList = batchRunFurtherInter(urls,runId);
         return runResultList;
     }
 

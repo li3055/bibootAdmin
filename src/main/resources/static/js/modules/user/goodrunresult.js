@@ -19,7 +19,8 @@ $(function () {
             { label: 'id', name: 'id', index: 'id', width: 50, key: true },
             { label: '', name: 'symbol', index: 'symbol', width: 70 },
             { label: '', name: 'buyAndHold', index: 'Buy_and_hold', width: 80 },
-            { label: '', name: 'waveTime', index: 'wave_time', width: 40 }
+         //   { label: '', name: 'waveTime', index: 'wave_time', width: 40 },
+            { label: '', name: 'createTime', index: 'create_time', width: 40 }
 			//{ label: '', name: 'startdate', index: 'startDate', width: 80 },
 			//{ label: '', name: 'enddate', index: 'endDate', width: 80 },
 			//{ label: '', name: 'timeWidthMin', index: 'time_width_min', width: 80 },

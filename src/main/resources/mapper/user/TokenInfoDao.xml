@@ -13,6 +13,8 @@
         <result property="pre100Percent" column="pre_100_percent"/>
         <result property="pre150Percent" column="pre_150_percent"/>
         <result property="pre200Percent" column="pre_200_percent"/>
+        <result property="pre250Percent" column="pre_250_percent"/>
+        <result property="pre300Percent" column="pre_300_percent"/>
         <result property="pre50D1" column="pre_50_d1"/>
         <result property="pre50D3" column="pre_50_d3"/>
         <result property="pre50D7" column="pre_50_d7"/>
@@ -45,6 +47,14 @@
 
 	<select id="queryList" resultType="com.suke.czx.modules.user.entity.TokenInfoEntity">
 		select * from token_info
+		<where>
+			<if test="symbol != null and symbol.trim() != ''">
+				and `symbol` = #{symbol}
+			</if>
+			<if test="collectDateInt != null  ">
+				and `collect_date_int` = #{collectDateInt}
+			</if>
+		</where>
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
                 order by ${sidx} ${order}
@@ -72,7 +82,9 @@
 			`pre_100_percent`, 
 			`pre_150_percent`, 
 			`pre_200_percent`, 
-			`pre_50_d1`, 
+			`pre_250_percent`,
+			`pre_300_percent`,
+			`pre_50_d1`,
 			`pre_50_d3`, 
 			`pre_50_d7`, 
 			`pre_50_d15`, 
@@ -106,7 +118,9 @@
 			#{pre100Percent}, 
 			#{pre150Percent}, 
 			#{pre200Percent}, 
-			#{pre50D1}, 
+			#{pre250Percent},
+			#{pre300Percent},
+			#{pre50D1},
 			#{pre50D3}, 
 			#{pre50D7}, 
 			#{pre50D15}, 

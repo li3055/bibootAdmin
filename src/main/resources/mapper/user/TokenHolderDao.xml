@@ -32,12 +32,20 @@
 
 	<select id="queryList" resultType="com.suke.czx.modules.user.entity.TokenHolderEntity">
 		select * from token_holder
+		<where>
+			<if test="symbol != null and symbol.trim() != ''">
+				and `symbol` = #{symbol}
+			</if>
+			<if test="collectDateInt != null  ">
+				and `collect_date_int` = #{collectDateInt}
+			</if>
+		</where>
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
                 order by ${sidx} ${order}
             </when>
 			<otherwise>
-                order by id desc
+                order by rank asc
 			</otherwise>
         </choose>
 		<if test="offset != null and limit != null">

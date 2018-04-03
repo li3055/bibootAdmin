@@ -9,6 +9,8 @@ server:
     context-path: /x_springboot
 
 spring:
+    application:
+      name: dubbo-spring-boot-starter
     # 环境 dev|test|pro
     profiles:
         active: test

@@ -1,5 +1,6 @@
 package com.suke.czx.modules.user.controller;
 
+import com.suke.czx.common.utils.DateUtils;
 import com.suke.czx.common.utils.PageUtils;
 import com.suke.czx.common.utils.Query;
 import com.suke.czx.common.utils.R;
@@ -9,15 +10,10 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
-
-
+import java.util.*;
 
 
 /**
- * 
- * 
  * @author czx
  * @email object_czx@163.com
  * @date 2018-03-07 14:19:55
@@ -33,16 +29,48 @@ public class TokenInfoController {
      */
     @RequestMapping("/list")
     @RequiresPermissions("user:tokeninfo:list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         //查询列表数据
         Query query = new Query(params);
+        if (query.get("symbol") != null) {
+            List<TokenInfoEntity> tokenInfoList = tokenInfoService.queryList(query);
+            int total = tokenInfoService.queryTotal(query);
 
-        List<TokenInfoEntity> tokenInfoList = tokenInfoService.queryList(query);
-        int total = tokenInfoService.queryTotal(query);
+            PageUtils pageUtil = new PageUtils(tokenInfoList, total, query.getLimit(), query.getPage());
+            return R.ok().put("page", pageUtil);
 
-        PageUtils pageUtil = new PageUtils(tokenInfoList, total, query.getLimit(), query.getPage());
+        } else {
+            Integer today = Integer.parseInt(DateUtils.format(new Date(), "yyyyMMdd"));
+            query.put("collectDateInt", 20180403);
 
-        return R.ok().put("page", pageUtil);
+            List<TokenInfoEntity> tokenInfoList = tokenInfoService.queryList(query);
+
+
+            Date startDate = DateUtils.addDays(new Date(), -5);
+            Integer bijiaoDay = Integer.parseInt(DateUtils.format(startDate, "yyyyMMdd"));
+            query.put("collectDateInt", 20180313);
+
+            List<TokenInfoEntity> oldList = tokenInfoService.queryList(query);
+
+            for (TokenInfoEntity tokenInfoEntity : tokenInfoList) {
+
+                for (TokenInfoEntity oldRecord : oldList) {
+                    if (oldRecord.getSymbol().equals(tokenInfoEntity.getSymbol())) {
+                        tokenInfoEntity.setPre50D1(tokenInfoEntity.getPre50Percent() - oldRecord.getPre50Percent());
+                        tokenInfoEntity.setPre100D1(tokenInfoEntity.getPre100Percent() - oldRecord.getPre100Percent());
+                        tokenInfoEntity.setPre150D1(tokenInfoEntity.getPre150Percent() - oldRecord.getPre150Percent());
+                        tokenInfoEntity.setPre200D1(tokenInfoEntity.getPre200Percent() - oldRecord.getPre200Percent());
+                        tokenInfoEntity.setPre250D1(tokenInfoEntity.getPre250Percent() - oldRecord.getPre250Percent());
+                        tokenInfoEntity.setPre300D1(tokenInfoEntity.getPre300Percent() - oldRecord.getPre300Percent());
+                    }
+                }
+            }
+            int total = 15000;
+            PageUtils pageUtil = new PageUtils(tokenInfoList, total, query.getLimit(), query.getPage());
+            return R.ok().put("page", pageUtil);
+        }
+
+
     }
 
 
@@ -51,8 +79,8 @@ public class TokenInfoController {
      */
     @RequestMapping("/info/{id}")
     @RequiresPermissions("user:tokeninfo:info")
-    public R info(@PathVariable("id") Integer id){
-			TokenInfoEntity tokenInfo = tokenInfoService.queryObject(id);
+    public R info(@PathVariable("id") Integer id) {
+        TokenInfoEntity tokenInfo = tokenInfoService.queryObject(id);
 
         return R.ok().put("tokenInfo", tokenInfo);
     }
@@ -62,8 +90,8 @@ public class TokenInfoController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("user:tokeninfo:save")
-    public R save(@RequestBody TokenInfoEntity tokenInfo){
-			tokenInfoService.save(tokenInfo);
+    public R save(@RequestBody TokenInfoEntity tokenInfo) {
+        tokenInfoService.save(tokenInfo);
 
         return R.ok();
     }
@@ -73,8 +101,8 @@ public class TokenInfoController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("user:tokeninfo:update")
-    public R update(@RequestBody TokenInfoEntity tokenInfo){
-			tokenInfoService.update(tokenInfo);
+    public R update(@RequestBody TokenInfoEntity tokenInfo) {
+        tokenInfoService.update(tokenInfo);
 
         return R.ok();
     }
@@ -84,10 +112,10 @@ public class TokenInfoController {
      */
     @RequestMapping("/delete")
     @RequiresPermissions("user:tokeninfo:delete")
-    public R delete(@RequestBody Integer[] ids){
-			tokenInfoService.deleteBatch(ids);
+    public R delete(@RequestBody Integer[] ids) {
+        tokenInfoService.deleteBatch(ids);
 
         return R.ok();
     }
-	
+
 }

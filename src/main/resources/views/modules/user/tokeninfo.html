@@ -23,6 +23,11 @@
 <div id="rrapp" v-cloak>
 	<div v-show="showList">
 		<div class="grid-btn">
+			<div class="form-group col-sm-2">
+				<input type="text" class="form-control"  v-model="q.symbol" @keyup.enter="query" placeholder="symbol">
+			</div>
+			<a class="btn btn-default" @click="query">查询</a>
+
 			<a v-if="hasPermission('user:tokeninfo:save')" class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
 			<a v-if="hasPermission('user:tokeninfo:update')" class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
 			<a v-if="hasPermission('user:tokeninfo:delete')" class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
@@ -79,8 +84,55 @@
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label"></div>
 			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="tokenInfo.pre250Percent" placeholder=""/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="tokenInfo.pre300Percent" placeholder=""/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
 			      <input type="text" class="form-control" v-model="tokenInfo.pre50D1" placeholder=""/>
 			    </div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-2 control-label"></div>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" v-model="tokenInfo.pre100D1" placeholder=""/>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-2 control-label"></div>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" v-model="tokenInfo.pre150D1" placeholder=""/>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-2 control-label"></div>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" v-model="tokenInfo.pre200D1" placeholder=""/>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-2 control-label"></div>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" v-model="tokenInfo.pre250D1" placeholder=""/>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-2 control-label"></div>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" v-model="tokenInfo.pre300D1" placeholder=""/>
+				</div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label"></div>
@@ -112,12 +164,7 @@
 			      <input type="text" class="form-control" v-model="tokenInfo.pre50D45" placeholder=""/>
 			    </div>
 			</div>
-									<div class="form-group">
-			   	<div class="col-sm-2 control-label"></div>
-			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="tokenInfo.pre100D1" placeholder=""/>
-			    </div>
-			</div>
+
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label"></div>
 			   	<div class="col-sm-10">
@@ -148,12 +195,7 @@
 			      <input type="text" class="form-control" v-model="tokenInfo.pre100D45" placeholder=""/>
 			    </div>
 			</div>
-									<div class="form-group">
-			   	<div class="col-sm-2 control-label"></div>
-			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="tokenInfo.pre150D1" placeholder=""/>
-			    </div>
-			</div>
+
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label"></div>
 			   	<div class="col-sm-10">
@@ -184,12 +226,7 @@
 			      <input type="text" class="form-control" v-model="tokenInfo.pre150D45" placeholder=""/>
 			    </div>
 			</div>
-									<div class="form-group">
-			   	<div class="col-sm-2 control-label"></div>
-			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="tokenInfo.pre200D1" placeholder=""/>
-			    </div>
-			</div>
+
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label"></div>
 			   	<div class="col-sm-10">

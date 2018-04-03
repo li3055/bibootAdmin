@@ -42,9 +42,17 @@
 		<remote-passwd>123456</remote-passwd>
 		<!--webmagic 配置-->
 		<us.codecraft.version>0.7.3</us.codecraft.version>
+
+
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.alibaba.spring.boot</groupId>
+			<artifactId>dubbo-spring-boot-starter</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

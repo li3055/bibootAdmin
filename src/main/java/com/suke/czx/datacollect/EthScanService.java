@@ -15,10 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class EthScanService {
+    public static Map<String, String> symbolBalanceMap = new HashMap<>();
 
     @Autowired
     private TokenHolderService tokenHolderService;
@@ -36,18 +39,52 @@ public class EthScanService {
 
 
     public void collectData(String symbol, int pageNumber) throws Exception {
-        String contractAddress = EthScanConstant.symbolContractAddr.get(symbol);
-        String totalBalance = getSymbolTotalBalance(symbol);
-        String pageUrl = "https://etherscan.io/token/generic-tokenholders2?a=" + contractAddress + "&s=" + totalBalance + "&p=" + pageNumber;
+        Map<String, Object> queryMap = new HashMap<>();
+        Integer today = Integer.parseInt(DateUtils.format(new Date(), "yyyyMMdd"));
+        queryMap.put("collectDateInt", today);
+        queryMap.put("symbol", symbol);
+        List<TokenHolderEntity> historyList = tokenHolderService.queryList(queryMap);
+        if(pageNumber ==1 && historyList.size()>=50){
+            System.err.println("=================================已经采集，跳过     " + symbol+"  "+pageNumber);
+            return;
+        }
+        if(pageNumber ==2 && historyList.size()>=100){
+            System.err.println("=================================已经采集，跳过     " + symbol+"  "+pageNumber);
+            return;
+        }
+        if(pageNumber ==3 && historyList.size()>=150){
+            System.err.println("=================================已经采集，跳过     " + symbol+"  "+pageNumber);
+            return;
+        }
+        if(pageNumber ==4 && historyList.size()>=200){
+            System.err.println("=================================已经采集，跳过     " + symbol+"  "+pageNumber);
+            return;
+        }
+        if(pageNumber ==5 && historyList.size()>=250){
+            System.err.println("=================================已经采集，跳过     " + symbol+"  "+pageNumber);
+            return;
+        }
+        if(pageNumber ==6 && historyList.size()>=300){
+            System.err.println("=================================已经采集，跳过     " + symbol+"  "+pageNumber);
+            return;
+        }
 
-        String crawlStorageFolder = "F:\\testData\\"+pageNumber;
+        String contractAddress = EthScanConstant.symbolContractAddr.get(symbol);
+        if (!symbolBalanceMap.containsKey(symbol)) {
+            String totalBalance = getSymbolTotalBalance(symbol);
+            symbolBalanceMap.put(symbol, totalBalance);
+        }
+        String pageUrl = "https://etherscan.io/token/generic-tokenholders2?a=" + contractAddress + "&s=" + symbolBalanceMap.get(symbol) + "&p=" + pageNumber;
+
+        String crawlStorageFolder = "F:\\testData\\" + pageNumber;
 
 
         CrawlConfig config = new CrawlConfig();
         config.setCrawlStorageFolder(crawlStorageFolder);
-        config.setMaxPagesToFetch(10);
+        config.setMaxPagesToFetch(2);
         config.setPolitenessDelay(1000);
-
+        config.setCleanupDelaySeconds(1);
+        config.setThreadShutdownDelaySeconds(1);
         PageFetcher pageFetcher = new PageFetcher(config);
         RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
         RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
@@ -70,7 +107,7 @@ public class EthScanService {
 
                 TokenHolderEntity o = new TokenHolderEntity();
                 o.setSymbol(symbol);
-                o.setCollectDateInt(Integer.parseInt(DateUtils.format(new Date(), "yyyyMMdd")));
+                o.setCollectDateInt(today);
                 int rank = Integer.parseInt(items[1]);
 //                if(pageNumber ==2){
 //                    rank = rank+50;

@@ -1,7 +1,6 @@
 package com.suke.czx.modules.user.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
 
 /**
@@ -30,6 +29,10 @@ public class TokenInfoEntity implements Serializable {
 	private Double pre150Percent;
 	//
 	private Double pre200Percent;
+	//
+	private Double pre250Percent;
+	//
+	private Double pre300Percent;
 	//
 	private Double pre50D1;
 	//
@@ -78,6 +81,142 @@ public class TokenInfoEntity implements Serializable {
 	private Double pre200D30;
 	//
 	private Double pre200D45;
+
+	private Double pre250D1;
+	//
+	private Double pre250D3;
+	//
+	private Double pre250D7;
+	//
+	private Double pre250D15;
+	//
+	private Double pre250D30;
+	//
+	private Double pre250D45;
+
+	private Double pre300D1;
+	//
+	private Double pre300D3;
+	//
+	private Double pre300D7;
+	//
+	private Double pre300D15;
+	//
+	private Double pre300D30;
+	//
+	private Double pre300D45;
+
+	public Double getPre250D1() {
+		return pre250D1;
+	}
+
+	public void setPre250D1(Double pre250D1) {
+		this.pre250D1 = pre250D1;
+	}
+
+	public Double getPre250D3() {
+		return pre250D3;
+	}
+
+	public void setPre250D3(Double pre250D3) {
+		this.pre250D3 = pre250D3;
+	}
+
+	public Double getPre250D7() {
+		return pre250D7;
+	}
+
+	public void setPre250D7(Double pre250D7) {
+		this.pre250D7 = pre250D7;
+	}
+
+	public Double getPre250D15() {
+		return pre250D15;
+	}
+
+	public void setPre250D15(Double pre250D15) {
+		this.pre250D15 = pre250D15;
+	}
+
+	public Double getPre250D30() {
+		return pre250D30;
+	}
+
+	public void setPre250D30(Double pre250D30) {
+		this.pre250D30 = pre250D30;
+	}
+
+	public Double getPre250D45() {
+		return pre250D45;
+	}
+
+	public void setPre250D45(Double pre250D45) {
+		this.pre250D45 = pre250D45;
+	}
+
+	public Double getPre300D1() {
+		return pre300D1;
+	}
+
+	public void setPre300D1(Double pre300D1) {
+		this.pre300D1 = pre300D1;
+	}
+
+	public Double getPre300D3() {
+		return pre300D3;
+	}
+
+	public void setPre300D3(Double pre300D3) {
+		this.pre300D3 = pre300D3;
+	}
+
+	public Double getPre300D7() {
+		return pre300D7;
+	}
+
+	public void setPre300D7(Double pre300D7) {
+		this.pre300D7 = pre300D7;
+	}
+
+	public Double getPre300D15() {
+		return pre300D15;
+	}
+
+	public void setPre300D15(Double pre300D15) {
+		this.pre300D15 = pre300D15;
+	}
+
+	public Double getPre300D30() {
+		return pre300D30;
+	}
+
+	public void setPre300D30(Double pre300D30) {
+		this.pre300D30 = pre300D30;
+	}
+
+	public Double getPre300D45() {
+		return pre300D45;
+	}
+
+	public void setPre300D45(Double pre300D45) {
+		this.pre300D45 = pre300D45;
+	}
+
+	public Double getPre250Percent() {
+		return pre250Percent;
+	}
+
+	public void setPre250Percent(Double pre250Percent) {
+		this.pre250Percent = pre250Percent;
+	}
+
+	public Double getPre300Percent() {
+		return pre300Percent;
+	}
+
+	public void setPre300Percent(Double pre300Percent) {
+		this.pre300Percent = pre300Percent;
+	}
 
 	/**
 	 * 设置：
