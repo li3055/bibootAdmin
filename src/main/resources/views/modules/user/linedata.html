@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="../../css/bootstrap.min.css">
+<link rel="stylesheet" href="../../css/font-awesome.min.css">
+<link rel="stylesheet" href="../../plugins/jqgrid/ui.jqgrid-bootstrap.css">
+<link rel="stylesheet" href="../../plugins/ztree/css/metroStyle/metroStyle.css">
+<link rel="stylesheet" href="../../css/main.css">
+<script src="../../libs/jquery.min.js"></script>
+<script src="../../plugins/layer/layer.js"></script>
+<script src="../../libs/bootstrap.min.js"></script>
+<script src="../../libs/vue.min.js"></script>
+<script src="../../plugins/jqgrid/grid.locale-cn.js"></script>
+<script src="../../plugins/jqgrid/jquery.jqGrid.min.js"></script>
+<script src="../../plugins/ztree/jquery.ztree.all.min.js"></script>
+<script src="../../js/common.js"></script>
+</head>
+<body>
+<div id="rrapp" v-cloak>
+	<div v-show="showList">
+		<div class="grid-btn">
+			<div class="form-group col-sm-2">
+				<select name="cars" class="form-control" v-model="q.symbol" @keyup.enter="query">
+					<option value="BTCUSDT" >BTCUSDT</option>
+					<option value="ETHUSDT" >ETHUSDT</option>
+					<option value="BNBUSDT" >BNBUSDT</option>
+					<option value="NEOUSDT" >NEOUSDT</option>
+					<option value="ADABTC" >ADA</option>
+					<option value="ETHBTC" selected>ETH</option>   //预选设置
+					<option value="XLMBTC" >XLMBTC</option>
+					<option value="QTUMBTC" >QTUMBTC</option>
+					<option value="NEOBTC" >NEOBTC</option>
+					<option value="IOTABTC" >IOTABTC</option>
+					<option value="EOSBTC" >EOSBTC</option>
+					<option value="XRPBTC" >XRPBTC</option>
+					<option value="LTCBTC" >LTCBTC</option>
+					<option value="XMRBTC" >XMRBTC</option>
+					<option value="LSKBTC" >LSKBTC</option>
+					<option value="VENBTC" >VENBTC</option>
+					<option value="ICXBTC" >ICXBTC</option>
+					<option value="ZECBTC" >ZECBTC</option>
+					<option value="BNBBTC" >BNBBTC</option>
+					<option value="ZRXBTC" >ZRXBTC</option>
+					<option value="SNTBTC" >SNTBTC</option>
+					<option value="WTCBTC" >WTCBTC</option>
+					<option value="PPTBTC" >PPTBTC</option>
+					<option value="BTSBTC" >BTSBTC</option>
+					<option value="KNCBTC" >KNCBTC</option>
+					<option value="LRCBTC" >LRCBTC</option>
+					<option value="BATBTC" >BATBTC</option>
+					<option value="ELFBTC" >ELFBTC</option>
+					<option value="PIVXBTC" >PIVXBTC</option>
+					<option value="IOSTBTC" >IOSTBTC</option>
+					<option value="FUNBTC" >FUNBTC</option>
+					<option value="REQBTC" >REQBTC</option>
+					<option value="NEBLBTC" >NEBLBTC</option>
+					<option value="POWRBTC" >POWRBTC</option>
+					<option value="WAVESBTC" >WAVESBTC</option>
+					<option value="SALTBTC" >SALTBTC</option>
+					<option value="RDNBTC" >RDNBTC</option>
+					<option value="POEBTC" >POEBTC</option>
+					<option value="BRDBTC" >BRDBTC</option>
+					<option value="SUBBTC" >SUBBTC</option>
+					<option value="LENDBTC" >LENDBTC</option>
+					<option value="WABIBTC" >WABIBTC</option>
+					<option value="NULSBTC" >NULSBTC</option>
+					<option value="BCCBTC" >BCCBTC</option>
+					<option value="BTGBTC" >BTGBTC</option>
+					<option value="BCDBTC" >BCDBTC</option>
+					<option value="NAVBTC" >NAVBTC</option>
+					<option value="DNTBTC" >DNTBTC</option>
+					<option value="KMDBTC" >KMDBTC</option>
+					<option value="VIBEBTC" >VIBEBTC</option>
+					<option value="MDABTC" >MDABTC</option>
+					<option value="AIONBTC" >AIONBTC</option>
+					<option value="APPCBTC" >APPCBTC</option>
+					<option value="LINKBTC" >LINKBTC</option>
+					<option value="ASTBTC" >ASTBTC</option>
+				</select>
+			</div>
+			<div class="form-group col-sm-2">
+				<input type="text" class="form-control"  v-model="q.lineStyle" @keyup.enter="query" placeholder="lineStyle">
+			</div>
+			<div class="form-group col-sm-2">
+				<input type="text" class="form-control"  v-model="q.openTimeDate" @keyup.enter="query" placeholder="openTimeDate">
+			</div>
+			<div class="form-group col-sm-2">
+				<input type="text" class="form-control"  v-model="q.startDateFrom" @keyup.enter="query" placeholder="startDateFrom">
+			</div>
+
+
+			</div>
+			<a class="btn btn-default" @click="query">查询</a>
+		</div>
+	    <table id="jqGrid"></table>
+	    <div id="jqGridPager"></div>
+    </div>
+    
+    <div v-show="!showList" class="panel panel-default">
+		<div class="panel-heading">{{title}}</div>
+		<form class="form-horizontal">
+											<div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="lineData.symbol" placeholder=""/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="lineData.timeStyle" placeholder=""/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="lineData.shortValue" placeholder=""/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="lineData.longValue" placeholder=""/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="lineData.openTimeDate" placeholder=""/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="lineData.startDateFrom" placeholder=""/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="lineData.openTime" placeholder=""/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="lineData.closeTime" placeholder=""/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="lineData.lineStyle" placeholder=""/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="lineData.shortNumber" placeholder=""/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="lineData.longNumber" placeholder=""/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="lineData.createTime" placeholder=""/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label">short/long -1</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="lineData.spread" placeholder="short/long -1"/>
+			    </div>
+			</div>
+							<div class="form-group">
+				<div class="col-sm-2 control-label"></div> 
+				<input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
+				&nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script src="../../js/modules/user/linedata.js"></script>
+</body>
+</html>

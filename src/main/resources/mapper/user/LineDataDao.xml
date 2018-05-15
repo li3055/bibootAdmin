@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.suke.czx.modules.user.dao.LineDataDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.suke.czx.modules.user.entity.LineDataEntity" id="lineDataMap">
+        <result property="id" column="id"/>
+        <result property="symbol" column="symbol"/>
+        <result property="timeStyle" column="time_style"/>
+        <result property="shortValue" column="short_value"/>
+        <result property="longValue" column="long_value"/>
+        <result property="openTimeDate" column="open_time_date"/>
+        <result property="startDateFrom" column="start_date_from"/>
+        <result property="openTime" column="open_time"/>
+        <result property="closeTime" column="close_time"/>
+        <result property="lineStyle" column="line_style"/>
+        <result property="shortNumber" column="short_number"/>
+        <result property="longNumber" column="long_number"/>
+        <result property="createTime" column="create_time"/>
+        <result property="spread" column="spread"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="com.suke.czx.modules.user.entity.LineDataEntity">
+		select * from line_data where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.suke.czx.modules.user.entity.LineDataEntity">
+		select * from line_data
+		<where>
+			<if test="symbol != null and symbol.trim() != ''">
+				and `symbol` = #{symbol}
+			</if>
+			<if test="lineStyle != null and lineStyle.trim() != ''">
+				and `line_style` = #{lineStyle}
+			</if>
+			<if test="openTimeDate != null">
+				and "open_time_date" &gt; #{openTimeDate}
+			</if>
+			<if test="startDateFrom != null">
+				and	"open_time_date" &lt;  #{startDateFrom}
+			</if>
+		</where>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from line_data 
+	</select>
+	 
+	<insert id="save" parameterType="com.suke.czx.modules.user.entity.LineDataEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into line_data
+		(
+			`symbol`, 
+			`time_style`, 
+			`short_value`, 
+			`long_value`, 
+			`open_time_date`, 
+			`start_date_from`, 
+			`open_time`, 
+			`close_time`, 
+			`line_style`, 
+			`short_number`, 
+			`long_number`, 
+			`create_time`, 
+			`spread`
+		)
+		values
+		(
+			#{symbol}, 
+			#{timeStyle}, 
+			#{shortValue}, 
+			#{longValue}, 
+			#{openTimeDate}, 
+			#{startDateFrom}, 
+			#{openTime}, 
+			#{closeTime}, 
+			#{lineStyle}, 
+			#{shortNumber}, 
+			#{longNumber}, 
+			#{createTime}, 
+			#{spread}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.suke.czx.modules.user.entity.LineDataEntity">
+		update line_data 
+		<set>
+			<if test="symbol != null">`symbol` = #{symbol}, </if>
+			<if test="timeStyle != null">`time_style` = #{timeStyle}, </if>
+			<if test="shortValue != null">`short_value` = #{shortValue}, </if>
+			<if test="longValue != null">`long_value` = #{longValue}, </if>
+			<if test="openTimeDate != null">`open_time_date` = #{openTimeDate}, </if>
+			<if test="startDateFrom != null">`start_date_from` = #{startDateFrom}, </if>
+			<if test="openTime != null">`open_time` = #{openTime}, </if>
+			<if test="closeTime != null">`close_time` = #{closeTime}, </if>
+			<if test="lineStyle != null">`line_style` = #{lineStyle}, </if>
+			<if test="shortNumber != null">`short_number` = #{shortNumber}, </if>
+			<if test="longNumber != null">`long_number` = #{longNumber}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="spread != null">`spread` = #{spread}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from line_data where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from line_data where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

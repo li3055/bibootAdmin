@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.suke.czx.modules.user.dao.KkOrderDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.suke.czx.modules.user.entity.KkOrderEntity" id="kkOrderMap">
+        <result property="id" column="id"/>
+        <result property="symbol" column="symbol"/>
+        <result property="orderId" column="order_id"/>
+        <result property="price" column="price"/>
+        <result property="orderType" column="order_type"/>
+        <result property="backContent" column="back_content"/>
+        <result property="allVolum" column="all_volum"/>
+        <result property="tradedVolum" column="traded_volum"/>
+        <result property="status" column="status"/>
+        <result property="amount" column="amount"/>
+        <result property="openDate" column="open_date"/>
+        <result property="closeDate" column="close_date"/>
+        <result property="profitDataId" column="profit_data_id"/>
+        <result property="insertTime" column="insert_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="unTradeVolum" column="un_trade_volum"/>
+        <result property="dcaCount" column="dca_count"/>
+        <result property="strategy" column="strategy"/>
+        <result property="mark1" column="mark1"/>
+        <result property="mark2" column="mark2"/>
+        <result property="mark3" column="mark3"/>
+        <result property="mark4" column="mark4"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="com.suke.czx.modules.user.entity.KkOrderEntity">
+		select * from kk_order where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.suke.czx.modules.user.entity.KkOrderEntity">
+		select * from kk_order
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from kk_order 
+	</select>
+	 
+	<insert id="save" parameterType="com.suke.czx.modules.user.entity.KkOrderEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into kk_order
+		(
+			`symbol`, 
+			`order_id`, 
+			`price`, 
+			`order_type`, 
+			`back_content`, 
+			`all_volum`, 
+			`traded_volum`, 
+			`status`, 
+			`amount`, 
+			`open_date`, 
+			`close_date`, 
+			`profit_data_id`, 
+			`insert_time`, 
+			`update_time`, 
+			`un_trade_volum`, 
+			`dca_count`, 
+			`strategy`, 
+			`mark1`, 
+			`mark2`, 
+			`mark3`, 
+			`mark4`
+		)
+		values
+		(
+			#{symbol}, 
+			#{orderId}, 
+			#{price}, 
+			#{orderType}, 
+			#{backContent}, 
+			#{allVolum}, 
+			#{tradedVolum}, 
+			#{status}, 
+			#{amount}, 
+			#{openDate}, 
+			#{closeDate}, 
+			#{profitDataId}, 
+			#{insertTime}, 
+			#{updateTime}, 
+			#{unTradeVolum}, 
+			#{dcaCount}, 
+			#{strategy}, 
+			#{mark1}, 
+			#{mark2}, 
+			#{mark3}, 
+			#{mark4}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.suke.czx.modules.user.entity.KkOrderEntity">
+		update kk_order 
+		<set>
+			<if test="symbol != null">`symbol` = #{symbol}, </if>
+			<if test="orderId != null">`order_id` = #{orderId}, </if>
+			<if test="price != null">`price` = #{price}, </if>
+			<if test="orderType != null">`order_type` = #{orderType}, </if>
+			<if test="backContent != null">`back_content` = #{backContent}, </if>
+			<if test="allVolum != null">`all_volum` = #{allVolum}, </if>
+			<if test="tradedVolum != null">`traded_volum` = #{tradedVolum}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="amount != null">`amount` = #{amount}, </if>
+			<if test="openDate != null">`open_date` = #{openDate}, </if>
+			<if test="closeDate != null">`close_date` = #{closeDate}, </if>
+			<if test="profitDataId != null">`profit_data_id` = #{profitDataId}, </if>
+			<if test="insertTime != null">`insert_time` = #{insertTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="unTradeVolum != null">`un_trade_volum` = #{unTradeVolum}, </if>
+			<if test="dcaCount != null">`dca_count` = #{dcaCount}, </if>
+			<if test="strategy != null">`strategy` = #{strategy}, </if>
+			<if test="mark1 != null">`mark1` = #{mark1}, </if>
+			<if test="mark2 != null">`mark2` = #{mark2}, </if>
+			<if test="mark3 != null">`mark3` = #{mark3}, </if>
+			<if test="mark4 != null">`mark4` = #{mark4}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from kk_order where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from kk_order where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
